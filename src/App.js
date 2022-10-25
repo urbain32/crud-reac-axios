@@ -21,11 +21,17 @@ function App() {
   // Updating a Post
   const handleUpdate = async (post) => {
     post.title = 'Updated title';
-    await axios.put(apiEndPoint + '/' + post.id)
-    const postClone = [...posts]
-    const index = postClone.indexOf(post)
-    postClone[index] = { ...post }
-    setPosts(postClone)
+    await axios.put(apiEndPoint + '/' + post.id);
+    const postClone = [...posts];
+    const index = postClone.indexOf(post);
+    postClone[index] = { ...post };
+    setPosts(postClone);
+  };
+  // Delete Post
+  const handleDelete = async (post) => {
+    await axios.delete(apiEndPoint + '/' + post.id + post);
+   
+    setPosts(posts.filter(p=>p.id !== post.id));
   };
   return (
     <div className='container'>
@@ -54,7 +60,10 @@ function App() {
                 </button>
               </td>
               <td>
-                <button  className='btn btn-outline-danger btn-sm'>
+                <button
+                  onClick={() => handleDelete(post)}
+                  className='btn btn-outline-danger btn-sm'
+                >
                   Delete
                 </button>
               </td>
