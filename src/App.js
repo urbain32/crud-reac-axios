@@ -12,15 +12,27 @@ function App() {
     };
     getPost();
   }, []);
+  // add Post
   const addPost = async () => {
-    const post = { title: 'New Post', body: 'new' }
-    await axios.post(apiEndPoint, post)
-    setPosts([post,...posts])
-  }
+    const post = { title: 'New Post', body: 'new' };
+    await axios.post(apiEndPoint, post);
+    setPosts([post, ...posts]);
+  };
+  // Updating a Post
+  const handleUpdate = async (post) => {
+    post.title = 'Updated title';
+    await axios.put(apiEndPoint + '/' + post.id)
+    const postClone = [...posts]
+    const index = postClone.indexOf(post)
+    postClone[index] = { ...post }
+    setPosts(postClone)
+  };
   return (
     <div className='container'>
       <h2>There are {posts.length} poost in database. </h2>
-      <button onClick={addPost} className=" btn btn-primary btn-sm">Add Post</button>
+      <button onClick={addPost} className=' btn btn-primary btn-sm'>
+        Add Post
+      </button>
       <table className='table'>
         <thead>
           <tr>
@@ -34,10 +46,17 @@ function App() {
             <tr key={post.id}>
               <td>{post.title}</td>
               <td>
-                <button className='btn btn-outline-info btn-sm'>Update</button>
+                <button
+                  onClick={() => handleUpdate(post)}
+                  className='btn btn-outline-info btn-sm'
+                >
+                  Update
+                </button>
               </td>
               <td>
-                <button className='btn btn-outline-danger btn-sm'>Delete</button>
+                <button  className='btn btn-outline-danger btn-sm'>
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
