@@ -12,9 +12,15 @@ function App() {
     };
     getPost();
   }, []);
+  const addPost = async () => {
+    const post = { title: 'New Post', body: 'new' }
+    await axios.post(apiEndPoint, post)
+    setPosts([post,...posts])
+  }
   return (
     <div className='container'>
       <h2>There are {posts.length} poost in database. </h2>
+      <button onClick={addPost} className=" btn btn-primary btn-sm">Add Post</button>
       <table className='table'>
         <thead>
           <tr>
